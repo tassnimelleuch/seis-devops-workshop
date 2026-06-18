@@ -1,0 +1,33 @@
+# .github/workflows/ci.yml
+name: CI — DevOps Workshop
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Test and Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pylint pytest
+
+      - name: Run pytest
+        run: pytest test_app.py -v
+
+      - name: Run pylint
+        run: pylint app.py --fail-under=9.0
+
+      
