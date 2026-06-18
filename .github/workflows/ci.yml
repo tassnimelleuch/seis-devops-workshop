@@ -1,3 +1,4 @@
+# .github/workflows/ci.yml
 name: CI — DevOps Workshop
 
 on:
@@ -10,11 +11,15 @@ jobs:
   test:
     name: Test and Lint
     runs-on: ubuntu-latest
-    container:
-      image: python:3.11
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
       - name: Install dependencies
         run: pip install -r requirements.txt pylint pytest
@@ -24,11 +29,12 @@ jobs:
 
       - name: Run pylint
         run: pylint app.py --fail-under=9.0
-
+  
   build:
     name: Build Docker Image
     runs-on: ubuntu-latest
     needs: test
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -40,6 +46,7 @@ jobs:
     name: Push to DockerHub
     runs-on: ubuntu-latest
     needs: build
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -54,4 +61,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ${{ secrets.USERNAME }}/devops-workshop:latest
+          tags: ${{ secrets.USERNAME }}/devops-workshop:latest    
