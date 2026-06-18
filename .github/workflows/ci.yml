@@ -29,5 +29,17 @@ jobs:
 
       - name: Run pylint
         run: pylint app.py --fail-under=9.0
+  
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t seis-devops-workshop .
 
       
