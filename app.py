@@ -280,12 +280,7 @@ def index():
 
 @app.route("/submit", methods=["POST"])
 def submit():
-    """Handle form submission and save a new message to the database.
-    
-    Reads 'name' and 'message' from the POST body.
-    Silently ignores the submission if either field is empty.
-    Redirects back to the home page after processing.
-    """
+
     name = request.form.get("name", "").strip()
     message = request.form.get("message", "").strip()
     if name and message:
