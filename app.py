@@ -124,7 +124,7 @@ TEMPLATE = """
 
     button {
       width: 100%;
-      background: #3a3aff;
+      background: red;
       color: #fff;
       border: none;
       font-family: inherit;
