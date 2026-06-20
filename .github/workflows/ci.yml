@@ -29,24 +29,10 @@ jobs:
 
       - name: Run pylint
         run: pylint app.py --fail-under=9.0
-  
-  build:
-    name: Build Docker Image
+  build-and-push:
+    name: Build and Push to DockerHub
     runs-on: ubuntu-latest
     needs: test
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Build Docker image
-        run: docker build -t seis-devops-workshop .
-
-  push:
-    name: Push to DockerHub
-    runs-on: ubuntu-latest
-    needs: build
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -60,5 +46,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
+          context: .
           push: true
-          tags: ${{ secrets.USERNAME }}/seis-devops-workshop:latest    
+          tags: ${{ secrets.USERNAME }}/seis-devops-workshop:latest
